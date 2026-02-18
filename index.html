@@ -217,6 +217,29 @@
       font-weight: 700;
     }
 
+    .banner {
+      width: 100%;
+      margin-bottom: 16px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .agenda-title {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
     @media (max-width: 600px) {
       .row,
       .full {
@@ -231,11 +254,18 @@
         flex-direction: column;
         align-items: flex-start;
       }
+      .banner img {
+        max-height: 140px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <div class="banner">
+      <img src="banner.jpeg" alt="" />
+    </div>
+    <h2 class="agenda-title">AGENDA</h2>
     <div class="header">
       <div>
         <p class="sub">Choisis <strong>RDC</strong> ou <strong>Sous-sol</strong> pour afficher le programme correspondant.</p>
