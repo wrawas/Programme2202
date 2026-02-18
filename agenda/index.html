@@ -320,15 +320,14 @@
           <button class="mode-btn" data-mode="half" aria-pressed="false">Demi-journée</button>
         </div>
         <p class="full-note">Je commence ma journée au :</p>
+        <div class="tabs" role="tablist" aria-label="Choix du niveau">
+          <button class="tab" id="tab-rdc" role="tab" aria-selected="true" aria-controls="panel" data-level="RDC">RDC</button>
+          <button class="tab" id="tab-ss" role="tab" aria-selected="false" aria-controls="panel" data-level="SOUS-SOL">Sous-sol</button>
+        </div>
         <div class="half-switch" role="group" aria-label="Partie de la journée">
           <button class="half-btn" data-part="matin" aria-pressed="true">Matin</button>
           <button class="half-btn" data-part="apresmidi" aria-pressed="false">Après-midi</button>
         </div>
-      </div>
-
-      <div class="tabs" role="tablist" aria-label="Choix du niveau">
-        <button class="tab" id="tab-rdc" role="tab" aria-selected="true" aria-controls="panel" data-level="RDC">RDC</button>
-        <button class="tab" id="tab-ss" role="tab" aria-selected="false" aria-controls="panel" data-level="SOUS-SOL">Sous-sol</button>
       </div>
     </div>
 
@@ -492,12 +491,13 @@
       );
       const halfSwitch = document.querySelector(".half-switch");
       const fullNote = document.querySelector(".full-note");
-      if (currentMode === "half") {
-        if (halfSwitch) halfSwitch.style.display = "inline-flex";
-        if (fullNote) fullNote.style.display = "none";
-      } else {
-        if (halfSwitch) halfSwitch.style.display = "none";
-        if (fullNote) fullNote.style.display = "block";
+      if (fullNote) {
+        fullNote.textContent =
+          currentMode === "half" ? "Je me place au :" : "Je commence ma journée au :";
+        fullNote.style.display = "block";
+      }
+      if (halfSwitch) {
+        halfSwitch.style.display = currentMode === "half" ? "inline-flex" : "none";
       }
       render(currentLevel);
     });
@@ -512,12 +512,16 @@
       render(currentLevel);
     });
   });
-  // État initial de l'UI : journée complète, filtres matin/après-midi cachés
+  // État initial de l'UI : journée complète,
+  // texte \"Je commence ma journée au\" + filtres matin/après-midi cachés
   (function initModeUI() {
     const halfSwitch = document.querySelector(".half-switch");
     const fullNote = document.querySelector(".full-note");
     if (halfSwitch) halfSwitch.style.display = "none";
-    if (fullNote) fullNote.style.display = "block";
+    if (fullNote) {
+      fullNote.textContent = "Je commence ma journée au :";
+      fullNote.style.display = "block";
+    }
   })();
 
   render(currentLevel);
