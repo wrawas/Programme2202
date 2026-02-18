@@ -427,13 +427,22 @@
         card.innerHTML = `<strong>${row.label}</strong>`;
         wrapper.appendChild(card);
       } else {
-        const data = row.slot[level];
+        // Détermine le niveau effectif affiché pour ce créneau
+        // - Journée complète : le matin reste sur le niveau choisi
+        //   l'après-midi bascule sur l'autre niveau après le swap.
+        // - Demi-journée : on reste toujours sur le niveau choisi.
+        let effectiveLevel = level;
+        if (currentMode === "full" && row.segment === "apresmidi") {
+          effectiveLevel = level === "RDC" ? "SOUS-SOL" : "RDC";
+        }
+
+        const data = row.slot[effectiveLevel];
         const card = document.createElement("div");
         card.className = "card";
 
         const title = document.createElement("div");
         title.className = "title";
-        title.innerHTML = `<p class="who">${data.who}</p><span class="badge">${level}</span>`;
+        title.innerHTML = `<p class="who">${data.who}</p><span class="badge">${effectiveLevel}</span>`;
 
         const ul = document.createElement("ul");
         data.items.forEach(it => {
