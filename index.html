@@ -83,6 +83,13 @@
       backdrop-filter: blur(8px);
     }
 
+    .formule-label {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
     .mode-switch {
       display: inline-flex;
       gap: 6px;
@@ -320,6 +327,7 @@
     <h2 class="agenda-title">AGENDA</h2>
     <div class="header">
       <div>
+        <p class="formule-label">Choisissez votre formule pour la journée</p>
         <div class="mode-switch" role="group" aria-label="Type de groupe">
           <button class="mode-btn" data-mode="full" aria-pressed="true">Journée complète</button>
           <button class="mode-btn" data-mode="half" aria-pressed="false">Demi-journée</button>
