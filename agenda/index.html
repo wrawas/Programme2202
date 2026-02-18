@@ -314,19 +314,18 @@
     <h2 class="agenda-title">AGENDA</h2>
     <div class="header">
       <div>
-        <p class="sub">Choisis <strong>RDC</strong> ou <strong>Sous-sol</strong> pour afficher le programme correspondant.</p>
         <div class="mode-switch" role="group" aria-label="Type de groupe">
           <button class="mode-btn" data-mode="full" aria-pressed="true">Journée complète</button>
           <button class="mode-btn" data-mode="half" aria-pressed="false">Demi-journée</button>
+        </div>
+        <div class="half-switch" role="group" aria-label="Partie de la journée">
+          <button class="half-btn" data-part="matin" aria-pressed="true">Matin</button>
+          <button class="half-btn" data-part="apresmidi" aria-pressed="false">Après-midi</button>
         </div>
         <p class="full-note">Je commence ma journée au :</p>
         <div class="tabs" role="tablist" aria-label="Choix du niveau">
           <button class="tab" id="tab-rdc" role="tab" aria-selected="true" aria-controls="panel" data-level="RDC">RDC</button>
           <button class="tab" id="tab-ss" role="tab" aria-selected="false" aria-controls="panel" data-level="SOUS-SOL">Sous-sol</button>
-        </div>
-        <div class="half-switch" role="group" aria-label="Partie de la journée">
-          <button class="half-btn" data-part="matin" aria-pressed="true">Matin</button>
-          <button class="half-btn" data-part="apresmidi" aria-pressed="false">Après-midi</button>
         </div>
       </div>
     </div>
