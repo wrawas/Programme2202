@@ -83,6 +83,41 @@
       backdrop-filter: blur(8px);
     }
 
+    .mode-switch,
+    .half-switch {
+      display: inline-flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn,
+    .half-btn {
+      border: 0;
+      background: rgba(15, 23, 42, 0.04);
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-soft);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background var(--transition), color var(--transition), transform 0.15s ease;
+    }
+
+    .mode-btn[aria-pressed="true"],
+    .half-btn[aria-pressed="true"] {
+      background: var(--accent-soft);
+      color: #fff;
+    }
+
+    .mode-btn:active,
+    .half-btn:active {
+      transform: scale(0.97);
+    }
+
     .tab {
       border: 0;
       background: transparent;
@@ -269,6 +304,14 @@
     <div class="header">
       <div>
         <p class="sub">Choisis <strong>RDC</strong> ou <strong>Sous-sol</strong> pour afficher le programme correspondant.</p>
+        <div class="mode-switch" role="group" aria-label="Type de groupe">
+          <button class="mode-btn" data-mode="full" aria-pressed="true">Journée complète</button>
+          <button class="mode-btn" data-mode="half" aria-pressed="false">Demi-journée</button>
+        </div>
+        <div class="half-switch" role="group" aria-label="Partie de la journée">
+          <button class="half-btn" data-part="matin" aria-pressed="true">Matin</button>
+          <button class="half-btn" data-part="apresmidi" aria-pressed="false">Après-midi</button>
+        </div>
       </div>
 
       <div class="tabs" role="tablist" aria-label="Choix du niveau">
@@ -285,78 +328,90 @@
 <script>
   // Données basées sur ton PDF programme. :contentReference[oaicite:1]{index=1}
   const schedule = [
-    { time:"09h15–10h00", type:"full", label:"PETIT DÉJEUNER" },
+    { time:"09h15–10h00", type:"full", label:"PETIT DÉJEUNER", segment:"matin" },
 
     {
       time:"10h00–11h00",
+      segment:"matin",
       slot: {
         "SOUS-SOL": { who:"Alejandro", items:["5 × 1 min","3 × 2 min","5 × 5 min","2 × 7 min"] },
         "RDC":      { who:"Dédé",      items:["5 × 1 min","4 × 2 min","5 × 5 min","2 × 10 min"] }
       }
     },
 
-    { time:"11h00–11h15", type:"full", label:"BREAK — 15 MIN" },
+    { time:"11h00–11h15", type:"full", label:"BREAK — 15 MIN", segment:"matin" },
 
     {
       time:"11h15–12h15",
+      segment:"matin",
       slot: {
         "SOUS-SOL": { who:"Dédé",      items:["5 × 1 min","4 × 2 min","4 × 5 min","2 × 10 min"] },
         "RDC":      { who:"Alejandro", items:["5 × 1 min","4 × 2 min","5 × 5 min","2 × 7 min"] }
       }
     },
 
-    { time:"12h15–12h30", type:"full", label:"BREAK — 15 MIN" },
+    { time:"12h15–12h30", type:"full", label:"BREAK — 15 MIN", segment:"matin" },
 
     {
       time:"12h30–13h30",
+      segment:"matin",
       slot: {
         "SOUS-SOL": { who:"Rashidi", items:["1 × 3 min","2 × 5 min","3 × 7 min","2 × 10 min"] },
         "RDC":      { who:"Hassana", items:["2 × 2 min","1 × 5 min","2 × 10 min","2 × 15 min"] }
       }
     },
 
-    { time:"13h30–14h30", type:"full", label:"PAUSE DÉJEUNER + SWAP" },
+    { time:"13h30–14h30", type:"full", label:"PAUSE DÉJEUNER + SWAP", segment:"apresmidi" },
 
     {
       time:"14h30–15h30",
+      segment:"apresmidi",
       slot: {
         "RDC":      { who:"Rashidi", items:["1 × 3 min","2 × 5 min","3 × 7 min","2 × 10 min"] },
         "SOUS-SOL": { who:"Hassana", items:["1 × 2 min","1 × 5 min","2 × 10 min","2 × 15 min"] }
       }
     },
 
-    { time:"15h30–15h45", type:"full", label:"BREAK — 15 MIN" },
+    { time:"15h30–15h45", type:"full", label:"BREAK — 15 MIN", segment:"apresmidi" },
 
     {
       time:"15h45–16h45",
+      segment:"apresmidi",
       slot: {
         "RDC":      { who:"Cyrielle & Sylviane (DUO)", items:["10 min","15 min","30 min"] },
         "SOUS-SOL": { who:"Frédéric",                 items:["2 × 5 min","3 × 10 min","1 × 15 min"] }
       }
     },
 
-    { time:"16h45–17h00", type:"full", label:"BREAK — 15 MIN" },
+    { time:"16h45–17h00", type:"full", label:"BREAK — 15 MIN", segment:"apresmidi" },
 
     {
       time:"17h00–18h00",
+      segment:"apresmidi",
       slot: {
         "RDC":      { who:"Frédéric",                 items:["2 × 5 min","3 × 10 min","1 × 15 min"] },
         "SOUS-SOL": { who:"Cyrielle & Sylviane (DUO)", items:["10 min","15 min","30 min"] }
       }
     },
 
-    { time:"18h00–19h00", type:"full", label:"ACCROCHAGE" },
-    { time:"19h00–21h30", type:"full", label:"VERNISSAGE + MUSIQUE LIVE" }
+    { time:"18h00–19h00", type:"full", label:"ACCROCHAGE", segment:"apresmidi" },
+    { time:"19h00–21h30", type:"full", label:"VERNISSAGE + MUSIQUE LIVE", segment:"apresmidi" }
   ];
 
   const grid = document.getElementById("grid");
   let currentLevel = "RDC";
+  let currentMode = "full";      // "full" (journée complète) ou "half" (demi-journée)
+  let currentHalfPart = "matin"; // "matin" ou "apresmidi"
 
   function render(level){
     currentLevel = level;
     grid.innerHTML = "";
 
     schedule.forEach(row => {
+      if (currentMode === "half") {
+        if (currentHalfPart === "matin" && row.segment === "apresmidi") return;
+        if (currentHalfPart === "apresmidi" && row.segment === "matin") return;
+      }
       const wrapper = document.createElement("div");
       wrapper.className = "row" + (row.type === "full" ? " full" : "");
 
@@ -406,6 +461,26 @@
 
   document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => setTab(btn.dataset.level));
+  });
+
+  document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentMode = btn.dataset.mode; // "full" ou "half"
+      document.querySelectorAll(".mode-btn").forEach(b =>
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false")
+      );
+      render(currentLevel);
+    });
+  });
+
+  document.querySelectorAll(".half-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentHalfPart = btn.dataset.part; // "matin" ou "apresmidi"
+      document.querySelectorAll(".half-btn").forEach(b =>
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false")
+      );
+      render(currentLevel);
+    });
   });
 
   render(currentLevel);
