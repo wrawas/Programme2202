@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programme — Double Raisin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fafafa;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: #fff;
+      --border: rgba(0, 0, 0, 0.06);
+      --text: #1a1a1a;
+      --text-soft: #64748b;
+      --accent: #0f172a;
+      --accent-soft: #334155;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.06);
+      --transition: 0.2s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      max-height: 100vh;
+      width: 100%;
+      overflow-y: auto;
+      background: var(--bg);
+      background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(15, 23, 42, 0.04), transparent);
+      color: var(--text);
+      font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: clamp(14px, 4vw, 28px);
+    }
+
+    .header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .tabs {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px;
+      box-shadow: var(--shadow);
+      gap: 2px;
+      backdrop-filter: blur(8px);
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-soft);
+      letter-spacing: 0.01em;
+      transition: color var(--transition), background var(--transition), transform 0.15s ease;
+    }
+    .tab:hover {
+      color: var(--text);
+    }
+    .tab[aria-selected="true"] {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .tab:active {
+      transform: scale(0.98);
+    }
+
+    .grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      transition: box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+    .row:hover {
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-card-hover);
+    }
+
+    .time {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-soft);
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+      padding-top: 2px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      min-height: 36px;
+      transition: background var(--transition);
+    }
+    .row:hover .card {
+      background: #fff;
+    }
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .who {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-soft);
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 999px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    ul li {
+      margin-bottom: 0;
+    }
+
+    .full {
+      grid-template-columns: 120px 1fr;
+    }
+    .full .card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-soft);
+      border-style: dashed;
+      padding: 10px 14px;
+      min-height: 0;
+      background: transparent;
+    }
+    .row.full:hover .card {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .full .card strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .row,
+      .full {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .time {
+        font-size: 12px;
+        padding-top: 0;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <p class="sub">Choisis <strong>RDC</strong> ou <strong>Sous-sol</strong> pour afficher le programme correspondant.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Choix du niveau">
+        <button class="tab" id="tab-rdc" role="tab" aria-selected="true" aria-controls="panel" data-level="RDC">RDC</button>
+        <button class="tab" id="tab-ss" role="tab" aria-selected="false" aria-controls="panel" data-level="SOUS-SOL">Sous-sol</button>
+      </div>
+    </div>
+
+    <div id="panel" role="tabpanel" aria-labelledby="tab-rdc">
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+<script>
+  // Données basées sur ton PDF programme. :contentReference[oaicite:1]{index=1}
+  const schedule = [
+    { time:"09h15–10h00", type:"full", label:"PETIT DÉJEUNER" },
+
+    {
+      time:"10h00–11h00",
+      slot: {
+        "SOUS-SOL": { who:"Alejandro", items:["5 × 1 min","3 × 2 min","5 × 5 min","2 × 7 min"] },
+        "RDC":      { who:"Dédé",      items:["5 × 1 min","4 × 2 min","5 × 5 min","2 × 10 min"] }
+      }
+    },
+
+    { time:"11h00–11h15", type:"full", label:"BREAK — 15 MIN" },
+
+    {
+      time:"11h15–12h15",
+      slot: {
+        "SOUS-SOL": { who:"Dédé",      items:["5 × 1 min","4 × 2 min","4 × 5 min","2 × 10 min"] },
+        "RDC":      { who:"Alejandro", items:["5 × 1 min","4 × 2 min","5 × 5 min","2 × 7 min"] }
+      }
+    },
+
+    { time:"12h15–12h30", type:"full", label:"BREAK — 15 MIN" },
+
+    {
+      time:"12h30–13h30",
+      slot: {
+        "SOUS-SOL": { who:"Rashidi", items:["1 × 3 min","2 × 5 min","3 × 7 min","2 × 10 min"] },
+        "RDC":      { who:"Hassana", items:["2 × 2 min","1 × 5 min","2 × 10 min","2 × 15 min"] }
+      }
+    },
+
+    { time:"13h30–14h30", type:"full", label:"PAUSE DÉJEUNER + SWAP" },
+
+    {
+      time:"14h30–15h30",
+      slot: {
+        "RDC":      { who:"Rashidi", items:["1 × 3 min","2 × 5 min","3 × 7 min","2 × 10 min"] },
+        "SOUS-SOL": { who:"Hassana", items:["1 × 2 min","1 × 5 min","2 × 10 min","2 × 15 min"] }
+      }
+    },
+
+    { time:"15h30–15h45", type:"full", label:"BREAK — 15 MIN" },
+
+    {
+      time:"15h45–16h45",
+      slot: {
+        "RDC":      { who:"Cyrielle & Sylviane (DUO)", items:["10 min","15 min","30 min"] },
+        "SOUS-SOL": { who:"Frédéric",                 items:["2 × 5 min","3 × 10 min","1 × 15 min"] }
+      }
+    },
+
+    { time:"16h45–17h00", type:"full", label:"BREAK — 15 MIN" },
+
+    {
+      time:"17h00–18h00",
+      slot: {
+        "RDC":      { who:"Frédéric",                 items:["2 × 5 min","3 × 10 min","1 × 15 min"] },
+        "SOUS-SOL": { who:"Cyrielle & Sylviane (DUO)", items:["10 min","15 min","30 min"] }
+      }
+    },
+
+    { time:"18h00–19h00", type:"full", label:"ACCROCHAGE" },
+    { time:"19h00–21h30", type:"full", label:"VERNISSAGE + MUSIQUE LIVE" }
+  ];
+
+  const grid = document.getElementById("grid");
+  let currentLevel = "RDC";
+
+  function render(level){
+    currentLevel = level;
+    grid.innerHTML = "";
+
+    schedule.forEach(row => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "row" + (row.type === "full" ? " full" : "");
+
+      const time = document.createElement("div");
+      time.className = "time";
+      time.textContent = row.time;
+
+      wrapper.appendChild(time);
+
+      if(row.type === "full"){
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<strong>${row.label}</strong>`;
+        wrapper.appendChild(card);
+      } else {
+        const data = row.slot[level];
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.innerHTML = `<p class="who">${data.who}</p><span class="badge">${level}</span>`;
+
+        const ul = document.createElement("ul");
+        data.items.forEach(it => {
+          const li = document.createElement("li");
+          li.textContent = it;
+          ul.appendChild(li);
+        });
+
+        card.appendChild(title);
+        card.appendChild(ul);
+        wrapper.appendChild(card);
+      }
+
+      grid.appendChild(wrapper);
+    });
+  }
+
+  function setTab(level){
+    document.querySelectorAll(".tab").forEach(b => {
+      const isOn = b.dataset.level === level;
+      b.setAttribute("aria-selected", isOn ? "true" : "false");
+    });
+    render(level);
+  }
+
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => setTab(btn.dataset.level));
+  });
+
+  render(currentLevel);
+</script>
+</body>
+</html>
