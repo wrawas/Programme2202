@@ -83,9 +83,15 @@
       backdrop-filter: blur(8px);
     }
 
-    .mode-switch,
-    .half-switch {
+    .mode-switch {
       display: inline-flex;
+      gap: 6px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .half-switch {
+      display: none; /* contrôlé en JS, mais toujours sur une ligne séparée */
       gap: 6px;
       margin-bottom: 8px;
       flex-wrap: wrap;
@@ -496,7 +502,7 @@
         fullNote.style.display = "block";
       }
       if (halfSwitch) {
-        halfSwitch.style.display = currentMode === "half" ? "inline-flex" : "none";
+        halfSwitch.style.display = currentMode === "half" ? "flex" : "none";
       }
       render(currentLevel);
     });
