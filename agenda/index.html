@@ -118,6 +118,17 @@
       transform: scale(0.97);
     }
 
+    .half-switch {
+      /* Caché par défaut, visible seulement en mode demi-journée via JS */
+      display: none;
+    }
+
+    .full-note {
+      margin: 2px 0 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
     .tab {
       border: 0;
       background: transparent;
@@ -308,6 +319,7 @@
           <button class="mode-btn" data-mode="full" aria-pressed="true">Journée complète</button>
           <button class="mode-btn" data-mode="half" aria-pressed="false">Demi-journée</button>
         </div>
+        <p class="full-note">Je commence ma journée au :</p>
         <div class="half-switch" role="group" aria-label="Partie de la journée">
           <button class="half-btn" data-part="matin" aria-pressed="true">Matin</button>
           <button class="half-btn" data-part="apresmidi" aria-pressed="false">Après-midi</button>
@@ -478,6 +490,15 @@
       document.querySelectorAll(".mode-btn").forEach(b =>
         b.setAttribute("aria-pressed", b === btn ? "true" : "false")
       );
+      const halfSwitch = document.querySelector(".half-switch");
+      const fullNote = document.querySelector(".full-note");
+      if (currentMode === "half") {
+        if (halfSwitch) halfSwitch.style.display = "inline-flex";
+        if (fullNote) fullNote.style.display = "none";
+      } else {
+        if (halfSwitch) halfSwitch.style.display = "none";
+        if (fullNote) fullNote.style.display = "block";
+      }
       render(currentLevel);
     });
   });
@@ -491,6 +512,13 @@
       render(currentLevel);
     });
   });
+  // État initial de l'UI : journée complète, filtres matin/après-midi cachés
+  (function initModeUI() {
+    const halfSwitch = document.querySelector(".half-switch");
+    const fullNote = document.querySelector(".full-note");
+    if (halfSwitch) halfSwitch.style.display = "none";
+    if (fullNote) fullNote.style.display = "block";
+  })();
 
   render(currentLevel);
 </script>
